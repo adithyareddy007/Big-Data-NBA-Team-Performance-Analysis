@@ -1,0 +1,75 @@
+create database bdaproject;
+
+show databases;
+
+use bdaproject;
+
+CREATE TABLE seasons_stats (
+    year INT,
+    player STRING,
+    pos STRING,
+    age INT,
+    tm STRING,
+    g INT,
+    gs INT,
+    mp INT,
+    fg INT,
+    fga INT,
+    `fg%` FLOAT,
+    `3p` INT,
+    `3pa` INT,
+    `3p%` FLOAT,
+    `2p` INT,
+    `2pa` INT,
+    `2p%` FLOAT,
+    `efg%` FLOAT,
+    ft INT,
+    fta INT,
+    `ft%` FLOAT,
+    orb INT,
+    drb INT,
+    trb INT,
+    ast INT,
+    stl INT,
+    blk INT,
+    tov INT,
+    pf INT,
+    pts INT,
+    per FLOAT,
+    `ts%` FLOAT,
+    `3par` FLOAT,
+    ftr FLOAT,
+    `orb%` FLOAT,
+    `drb%` FLOAT,
+    `trb%` FLOAT,
+    `ast%` FLOAT,
+    `stl%` FLOAT,
+    `blk%` FLOAT,
+    `tov%` FLOAT,
+    `usg%` FLOAT,
+    ows FLOAT,
+    dws FLOAT,
+    ws FLOAT,
+    `ws/48` FLOAT,
+    obpm FLOAT,
+    dbpm FLOAT,
+    bpm FLOAT,
+    vorp FLOAT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+TBLPROPERTIES ('skip.header.line.count'='1');
+
+LOAD DATA INPATH '/data_sports/nba/seasons_stats.csv' INTO TABLE seasons_stats;
+
+SELECT * FROM seasons_stats LIMIT 10;
+
+SELECT player, SUM(pts) AS total_points
+FROM seasons_stats
+WHERE player IS NOT NULL AND player != ''
+GROUP BY player
+ORDER BY total_points DESC
+LIMIT 10;
+

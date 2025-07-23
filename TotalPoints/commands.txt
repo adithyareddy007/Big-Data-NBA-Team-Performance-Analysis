@@ -1,0 +1,15 @@
+hdfs dfs -ls /data_sports/nba
+
+hdfs dfs -mkdir -p /data_sports/nba
+
+hdfs dfs -put player_data.csv /data_sports/nba/
+
+hdfs dfs -put seasons_stats.csv /data_sports/nba/
+
+javac -classpath "C:\hadoop\share\hadoop\common\*;C:\hadoop\share\hadoop\common\lib\*;C:\hadoop\share\hadoop\hdfs\*;C:\hadoop\share\hadoop\hdfs\lib\*;C:\hadoop\share\hadoop\mapreduce\*;C:\hadoop\share\hadoop\mapreduce\lib\*;C:\hadoop\share\hadoop\yarn\*;C:\hadoop\share\hadoop\yarn\lib\*" -d . TeamPointsAggregator.java
+
+jar -cvf TeamPointsAggregator.jar com/hadoop/example/*.class
+
+hadoop jar TeamPointsAggregator.jar com.hadoop.example.TeamPointsAggregator /data_sports/nba/seasons_stats.csv /output/nba_points
+
+hdfs dfs -cat /output/nba_points/part-r-00000

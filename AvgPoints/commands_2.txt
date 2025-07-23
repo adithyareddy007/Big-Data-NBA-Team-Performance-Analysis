@@ -1,0 +1,14 @@
+hdfs dfs -mkdir -p /data_sports/nba
+
+hdfs dfs -put player_data.csv /data_sports/nba/
+
+hdfs dfs -put seasons_stats.csv /data_sports/nba/
+
+javac -classpath "C:\hadoop\share\hadoop\common\*;C:\hadoop\share\hadoop\common\lib\*;C:\hadoop\share\hadoop\hdfs\*;C:\hadoop\share\hadoop\hdfs\lib\*;C:\hadoop\share\hadoop\mapreduce\*;C:\hadoop\share\hadoop\mapreduce\lib\*;C:\hadoop\share\hadoop\yarn\*;C:\hadoop\share\hadoop\yarn\lib\*" -d . PlayerAvgPPG.java
+
+
+jar -cvf PlayerAvgPPG.jar com/hadoop/example/*.class
+
+hadoop jar PlayerAvgPPG.jar com.hadoop.example.PlayerAvgPPG /data_sports/nba/seasons_stats.csv /output/nba_avg_ppg
+
+hadoop fs -cat /output/nba_avg_ppg/part-r-00000
